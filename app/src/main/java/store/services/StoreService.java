@@ -7,6 +7,7 @@ import store.exceptions.ExpiredException;
 import store.exceptions.InsufficientFundsException;
 import store.exceptions.InsufficientProductQuantityException;
 import store.models.Cashier;
+import store.models.Product;
 import store.models.Receipt;
 import store.models.Store;
 
@@ -18,29 +19,22 @@ public class StoreService {
     this.store = store;
   }
 
-  public void addProduct(ProductService product) {
-    store.products.add(product);
-  }
-
-  public List<ProductService> getProducts() {
-    return store.products;
-  }
-
   public void addCashier(Cashier cashier) throws ExistingCashierForTheGivenCashierDeskException {
 
-    for (Cashier existingCashier : store.cashiers) {
-      if (existingCashier.cashDeskId == cashier.cashDeskId) {
-        throw new ExistingCashierForTheGivenCashierDeskException(existingCashier.name, existingCashier.cashDeskId);
+    for (Cashier existingCashier : store.getCashiers()) {
+      if (existingCashier.getCashDeskID() == cashier.getCashDeskID()) {
+        throw new ExistingCashierForTheGivenCashierDeskException(existingCashier.getName(),
+            existingCashier.getCashDeskID());
       }
     }
 
-    store.cashiers.add(cashier);
+    store.addCashier(cashier);
   }
 
-  public void sellProducts(Cashier cashier, List<ProductService> products, double customerMoney)
+  public void sellProducts(Cashier cashier, List<Product> products, double customerMoney)
       throws Exception {
     double totalAmount = 0;
-    for (ProductService product : products) {
+    for (Product product : products) {
       if (product.isExpired()) {
         throw new ExpiredException(product.getName());
       } else if (product.getQuantity() > product.getAvailability()) {
@@ -53,16 +47,16 @@ public class StoreService {
       throw new InsufficientFundsException();
     }
 
-    store.receipts.add(new Receipt(cashier, products, totalAmount));
+    store.addReceipts(new Receipt(cashier, products, totalAmount));
   }
 
   public double getTotalRevenue() {
-    return store.receipts.stream().mapToDouble(receipt -> receipt.totalAmount).sum();
+    return store.getReceipts().stream().mapToDouble(receipt -> receipt.getTotalAmount()).sum();
   }
 
   public double getTotalExpenses() {
-    double salaries = store.cashiers.stream().mapToDouble(cashier -> cashier.monthlySalary).sum();
-    double purchaseCosts = store.products.stream().mapToDouble(product -> product.getDeliveryPrice()).sum();
+    double salaries = store.getCashiers().stream().mapToDouble(cashier -> cashier.getSalary()).sum();
+    double purchaseCosts = store.getProducts().stream().mapToDouble(product -> product.getDeliveryPrice()).sum();
     return salaries + purchaseCosts;
   }
 
@@ -71,7 +65,7 @@ public class StoreService {
   }
 
   public int getReceiptCounter() {
-    return store.receipts.size();
+    return store.getReceipts().size();
   }
 
 }

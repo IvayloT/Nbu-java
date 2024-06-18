@@ -36,4 +36,28 @@ public class Product {
     }
     return salePrice;
   }
+
+  public String getName() {
+    return name;
+  }
+
+  public double getSellingPrice() {
+    return sellingPrice;
+  }
+
+  public double getQuantity() {
+    return quantity;
+  }
+
+  public double getAvailability() {
+    return availability;
+  }
+
+  public boolean isExpired() {
+    return LocalDate.now().isAfter(expiryDate);
+  }
+
+  public double getDeliveryPrice() {
+    return deliveryPrice;
+  }
 }

@@ -15,15 +15,12 @@ public class Main {
     // Adding products
     Product product1 = new Product(1, "Milk", 1.0, Category.FOOD, LocalDate.now().plusDays(7), 50, 100,
 
-        store.markupPercentageFood, store.discountPercentage, store.discountDays);
+        store.getMarkupPercentageFood(), store.getDiscountPercentage(), store.getDiscountDays());
     Product product2 = new Product(2, "Soap", 0.5, Category.NON_FOOD, LocalDate.now().plusMonths(3), 30, 100,
-        store.markupPercentageNonFood, store.discountPercentage, store.discountDays);
+        store.getMarkupPercentageFood(), store.getDiscountPercentage(), store.getDiscountDays());
 
-    ProductService productServiceOne = new ProductService(product1);
-    ProductService productServiceSecond = new ProductService(product2);
-
-    storeService.addProduct(productServiceOne);
-    storeService.addProduct(productServiceSecond);
+    store.addProduct(product1);
+    store.addProduct(product2);
 
     // Adding cashier desk
 
@@ -42,7 +39,7 @@ public class Main {
 
     // Selling products
     try {
-      storeService.sellProducts(cashier1, storeService.getProducts(), 100);
+      storeService.sellProducts(cashier1, store.getProducts(), 100);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }

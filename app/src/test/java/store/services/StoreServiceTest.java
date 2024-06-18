@@ -28,10 +28,9 @@ public class StoreServiceTest {
   @Test
   public void addProductTest() {
     Product product = new Product(1, "Milk", 1.0, Category.FOOD, LocalDate.now().minusDays(1), 50, 100,
-        store.markupPercentageFood, store.discountPercentage, store.discountDays);
-    ProductService productService = new ProductService(product);
-    storeService.addProduct(productService);
-    assertEquals(1, storeService.getProducts().size());
+        store.getMarkupPercentageFood(), store.getDiscountPercentage(), store.getDiscountDays());
+    store.addProduct(product);
+    assertEquals(1, store.getProducts().size());
   }
 
   @Test
@@ -48,6 +47,6 @@ public class StoreServiceTest {
     CashierDesk cashierDesk = new CashierDesk(1);
     Cashier cashier = new Cashier(1, "John", 1000, cashierDesk.number);
     storeService.addCashier(cashier);
-    assertEquals(store.cashiers.size(), 1);
+    assertEquals(store.getCashiers().size(), 1);
   }
 }

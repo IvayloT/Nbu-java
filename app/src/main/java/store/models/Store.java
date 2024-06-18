@@ -3,17 +3,15 @@ package store.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import store.services.ProductService;
-
 public class Store {
-  public String name;
-  public List<ProductService> products;
-  public List<Cashier> cashiers;
-  public List<Receipt> receipts;
-  public double markupPercentageFood;
-  public double markupPercentageNonFood;
-  public double discountPercentage;
-  public int discountDays;
+  private String name;
+  private List<Product> products;
+  private List<Cashier> cashiers;
+  private List<Receipt> receipts;
+  private double markupPercentageFood;
+  private double markupPercentageNonFood;
+  private double discountPercentage;
+  private int discountDays;
 
   public Store(String name, double markupPercentageFood, double markupPercentageNonFood, double discountPercentage,
       int discountDays) {
@@ -25,5 +23,45 @@ public class Store {
     this.markupPercentageNonFood = markupPercentageNonFood;
     this.discountPercentage = discountPercentage;
     this.discountDays = discountDays;
+  }
+
+  public void addProduct(Product product) {
+    products.add(product);
+  }
+
+  public void addCashier(Cashier cashier) {
+    cashiers.add(cashier);
+  }
+
+  public void addReceipts(Receipt receipt) {
+    receipts.add(receipt);
+  }
+
+  public List<Product> getProducts() {
+    return products;
+  }
+
+  public List<Cashier> getCashiers() {
+    return cashiers;
+  }
+
+  public List<Receipt> getReceipts() {
+    return receipts;
+  }
+
+  public double getMarkupPercentageFood() {
+    return markupPercentageFood;
+  }
+
+  public double getMarkupPercentageNonFood() {
+    return markupPercentageNonFood;
+  }
+
+  public double getDiscountPercentage() {
+    return discountPercentage;
+  }
+
+  public int getDiscountDays() {
+    return discountDays;
   }
 }

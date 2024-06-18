@@ -3,8 +3,6 @@ package store.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import store.services.ProductService;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -12,10 +10,10 @@ public class Receipt {
   private int receiptNumber;
   private Cashier cashier;
   private LocalDateTime dateTime;
-  private List<ProductService> products;
-  public double totalAmount;
+  private List<Product> products;
+  private double totalAmount;
 
-  public Receipt(Cashier cashier, List<ProductService> products, double totalAmount) {
+  public Receipt(Cashier cashier, List<Product> products, double totalAmount) {
     this.cashier = cashier;
     this.dateTime = LocalDateTime.now();
     this.products = products;
@@ -35,12 +33,12 @@ public class Receipt {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("Receipt Number: ").append(receiptNumber).append("\n")
-        .append("Cashier: ").append(cashier.name).append("\n")
-        .append("CashierDesk: ").append(cashier.cashDeskId).append("\n")
+        .append("Cashier: ").append(cashier.getName()).append("\n")
+        .append("CashierDesk: ").append(cashier.getCashDeskID()).append("\n")
         .append("Date/Time: ").append(dateTime).append("\n")
         .append("Products:\n");
 
-    for (ProductService product : products) {
+    for (Product product : products) {
       sb.append(product.getName()).append(" - ")
           .append(product.getSellingPrice()).append(" x ")
           .append(product.getQuantity()).append("\n");
@@ -48,6 +46,10 @@ public class Receipt {
 
     sb.append("Total Amount: ").append(totalAmount);
     return sb.toString();
+  }
+
+  public double getTotalAmount() {
+    return totalAmount;
   }
 
 }
