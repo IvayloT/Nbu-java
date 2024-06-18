@@ -1,5 +1,6 @@
 package store.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import store.exceptions.ExistingCashierForTheGivenCashierDeskException;
@@ -8,6 +9,7 @@ import store.exceptions.InsufficientFundsException;
 import store.exceptions.InsufficientProductQuantityException;
 import store.models.Cashier;
 import store.models.Product;
+import store.models.Product.Category;
 import store.models.Receipt;
 import store.models.Store;
 
@@ -17,6 +19,23 @@ public class StoreService {
 
   public StoreService(Store store) {
     this.store = store;
+  }
+
+  public void addProduct(Product product) {
+    double markupPercentage = product.getCategory() == Category.FOOD ? store.getMarkupPercentageFood()
+        : store.getMarkupPercentageNonFood();
+    product.updateSellingPrice(
+        calculateSellingPrice(product, markupPercentage, store.getDiscountPercentage(), store.getDiscountDays()));
+    store.addProduct(product);
+  }
+
+  public double calculateSellingPrice(Product product, double markupPercentage, double discountPercentage,
+      int discountDays) {
+    double salePrice = product.getDeliveryPrice() + (product.getDeliveryPrice() * (markupPercentage / 100));
+    if (product.getExpiryDate().isBefore(LocalDate.now().plusDays(discountDays))) {
+      salePrice = salePrice - (salePrice *= (discountPercentage / 100));
+    }
+    return salePrice;
   }
 
   public void addCashier(Cashier cashier) throws ExistingCashierForTheGivenCashierDeskException {

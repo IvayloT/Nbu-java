@@ -4,37 +4,28 @@ import java.time.LocalDate;
 
 public class Product {
   private int idNumber;
-  public String name;
-  public double deliveryPrice;
-  public double sellingPrice;
-  public Category category;
-  public LocalDate expiryDate;
-  public double quantity;
-  public double availability;
+  private String name;
+  private double deliveryPrice;
+  private double sellingPrice;
+  private Category category;
+  private LocalDate expiryDate;
+  private double quantity;
+  private double availability;
 
   public Product(int idNumber, String name, double deliveryPrice, Category category, LocalDate expiryDate,
-      int quantity, double availability, double markupPercentage, double discountPercentage, int discountDays) {
+      double availability) {
     this.idNumber = idNumber;
     this.name = name;
     this.deliveryPrice = deliveryPrice;
     this.category = category;
     this.expiryDate = expiryDate;
-    this.quantity = quantity;
     this.availability = availability;
-    this.sellingPrice = calculateSellingPrice(markupPercentage, discountPercentage, discountDays);
+    this.quantity = 0.0;
   }
 
   public enum Category {
     FOOD,
     NON_FOOD
-  }
-
-  public double calculateSellingPrice(double markupPercentage, double discountPercentage, int discountDays) {
-    double salePrice = this.deliveryPrice + (this.deliveryPrice * (markupPercentage / 100));
-    if (expiryDate.isBefore(LocalDate.now().plusDays(discountDays))) {
-      salePrice = salePrice - (salePrice *= (discountPercentage / 100));
-    }
-    return salePrice;
   }
 
   public String getName() {
@@ -60,4 +51,17 @@ public class Product {
   public double getDeliveryPrice() {
     return deliveryPrice;
   }
+
+  public LocalDate getExpiryDate() {
+    return expiryDate;
+  }
+
+  public Category getCategory() {
+    return category;
+  }
+
+  public void updateSellingPrice(double selingPrice) {
+    this.sellingPrice = selingPrice;
+  }
+
 }

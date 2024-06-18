@@ -10,9 +10,9 @@ import store.models.Product;
 import store.models.Product.Category;
 import store.models.Store;
 
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDate;
 
 public class StoreServiceTest {
 
@@ -21,16 +21,8 @@ public class StoreServiceTest {
 
   @BeforeEach
   void init() {
-    store = new Store("Magazin1", 5, 2, 3, 3);
+    store = new Store("Magazin1", 20, 10, 3, 3);
     storeService = new StoreService(store);
-  }
-
-  @Test
-  public void addProductTest() {
-    Product product = new Product(1, "Milk", 1.0, Category.FOOD, LocalDate.now().minusDays(1), 50, 100,
-        store.getMarkupPercentageFood(), store.getDiscountPercentage(), store.getDiscountDays());
-    store.addProduct(product);
-    assertEquals(1, store.getProducts().size());
   }
 
   @Test
@@ -48,5 +40,22 @@ public class StoreServiceTest {
     Cashier cashier = new Cashier(1, "John", 1000, cashierDesk.number);
     storeService.addCashier(cashier);
     assertEquals(store.getCashiers().size(), 1);
+  }
+
+  @Test
+  public void addProductTest() {
+    Product product = new Product(1, "Bag", 1.0, Category.NON_FOOD, LocalDate.now().plusDays(7), 100);
+    storeService.addProduct(product);
+    assertEquals(store.getProducts().size(), 1);
+  }
+
+  @Test
+  public void calculateSellingPriceTest() {
+    Product productNonFood = new Product(1, "Bag", 1.0, Category.NON_FOOD, LocalDate.now().plusDays(7), 100);
+    Product productFood = new Product(1, "Milk", 2.0, Category.FOOD, LocalDate.now().plusDays(7), 100);
+    storeService.addProduct(productNonFood);
+    storeService.addProduct(productFood);
+    assertEquals(2.40, productFood.getSellingPrice());
+    assertEquals(1.10, productNonFood.getSellingPrice());
   }
 }
