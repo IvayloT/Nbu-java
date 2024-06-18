@@ -1,6 +1,8 @@
 package store.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import store.exceptions.ExistingCashierForTheGivenCashierDeskException;
@@ -19,6 +21,16 @@ public class StoreService {
 
   public StoreService(Store store) {
     this.store = store;
+  }
+
+  public List<Product> addToBasket(HashMap<String, Double> products) {
+    List<Product> customerProducts = new ArrayList<>();
+    for (Product product : store.getProducts()) {
+      double quantity = products.get(product.getName()) != null ? products.get(product.getName()) : 0.0;
+      product.updateQuantity(quantity);
+      customerProducts.add(product);
+    }
+    return customerProducts;
   }
 
   public void addProduct(Product product) {

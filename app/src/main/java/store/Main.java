@@ -7,6 +7,7 @@ import store.services.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
   public static void main(String[] args) {
@@ -31,12 +32,6 @@ public class Main {
     Cashier cashier1 = new Cashier(1, "Georgi", 1200, cashierDesk1.number);
     Cashier cashier2 = new Cashier(2, "Mitko", 1200, cashierDesk2.number);
 
-    HashMap<String, Double> basketProducts = new HashMap<String, Double>();
-    basketProducts.put("Milk", 2.0);
-    basketProducts.put("Soap", 2.0);
-    basketProducts.put("Tomato", 1.0);
-    basketProducts.put("Milk", 2.0);
-
     try {
       storeService.addCashier(cashier1);
       storeService.addCashier(cashier2);
@@ -44,11 +39,22 @@ public class Main {
       System.out.println(e.getMessage());
     }
 
+    HashMap<String, Double> basketProducts = new HashMap<String, Double>();
+    basketProducts.put("Milk", 2.0);
+    basketProducts.put("Soap", 2.0);
+    basketProducts.put("Tomato", 4.0);
+
+    List<Product> customerProducts = storeService.addToBasket(basketProducts);
+
     // Selling products
     try {
-      storeService.sellProducts(cashier1, store.getProducts(), 100);
+      storeService.sellProducts(cashier1, customerProducts, 30);
+      storeService.sellProducts(cashier2, customerProducts, 30);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
+    storeService.getReceiptCounter();
+    storeService.getTotalExpenses();
+    storeService.getTotalRevenue();
   }
 }

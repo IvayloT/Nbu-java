@@ -64,4 +64,12 @@ public class Product {
     this.sellingPrice = selingPrice;
   }
 
+  public void updateQuantity(double quantity) {
+    this.quantity = quantity;
+  }
+
+  public void updateAvailability(double availability) {
+    this.availability = availability;
+  }
+
 }
