@@ -13,13 +13,15 @@ public class Receipt {
   private LocalDateTime dateTime;
   private List<Product> products;
   private double totalAmount;
+  private String storeName;
 
-  public Receipt(int receiptNumber, Cashier cashier, List<Product> products, double totalAmount) {
+  public Receipt(int receiptNumber, Cashier cashier, List<Product> products, double totalAmount, String storeName) {
     this.receiptNumber = receiptNumber;
     this.cashier = cashier;
     this.dateTime = LocalDateTime.now();
     this.products = products;
     this.totalAmount = totalAmount;
+    this.storeName = storeName;
     saveToFile();
   }
 
@@ -36,10 +38,11 @@ public class Receipt {
   public String toString() {
     DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     StringBuilder sb = new StringBuilder();
+    sb.append("******Receipt******").append("\n");
+    sb.append("\n");
     sb.append("Receipt Number: ").append(receiptNumber).append("\n")
         .append("Cashier: ").append(cashier.getName()).append("\n")
         .append("CashierDesk: ").append(cashier.getCashDeskID()).append("\n")
-        .append("Date/Time: ").append(dateTime.format(myFormatObj)).append("\n")
         .append("Products:\n");
 
     for (Product product : products) {
@@ -48,7 +51,12 @@ public class Receipt {
           .append(product.getQuantity()).append("\n");
     }
 
-    sb.append("Total Amount: ").append(Math.round(totalAmount * 100.0) / 100.0);
+    sb.append("\n");
+    sb.append("Total Amount: ").append(Math.round(totalAmount * 100.0) / 100.0).append("\n");
+    sb.append("*******************").append("\n");
+    sb.append("\n");
+    sb.append("Store Name: ").append(storeName).append("\n");
+    sb.append("Date/Time: ").append(dateTime.format(myFormatObj)).append("\n");
     return sb.toString();
   }
 

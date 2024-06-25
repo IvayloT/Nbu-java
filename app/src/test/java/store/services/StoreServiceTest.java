@@ -14,7 +14,6 @@ import store.models.Store;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class StoreServiceTest {
 

@@ -83,7 +83,7 @@ public class StoreService {
       throw new InsufficientFundsException();
     }
 
-    store.addReceipts(new Receipt(store.getReceipts().size() + 1, cashier, products, totalAmount));
+    store.addReceipts(new Receipt(store.getReceipts().size() + 1, cashier, products, totalAmount, store.getName()));
   }
 
   public double getTotalRevenue() {

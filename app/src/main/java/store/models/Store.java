@@ -66,4 +66,8 @@ public class Store {
     return discountDays;
   }
 
+  public String getName() {
+    return name;
+  }
+
 }

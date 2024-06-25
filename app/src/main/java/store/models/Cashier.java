@@ -1,7 +1,5 @@
 package store.models;
 
-import java.util.List;
-
 public class Cashier {
   private int id;
   private String name;
