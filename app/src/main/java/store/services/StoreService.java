@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import store.exceptions.ExistingCashierForTheGivenCashierDeskException;
 import store.exceptions.ExpiredException;
@@ -27,8 +28,10 @@ public class StoreService {
     List<Product> customerProducts = new ArrayList<>();
     for (Product product : store.getProducts()) {
       double quantity = products.get(product.getName()) != null ? products.get(product.getName()) : 0.0;
-      product.updateQuantity(quantity);
-      customerProducts.add(product);
+      if (quantity != 0.0) {
+        product.updateQuantity(quantity);
+        customerProducts.add(product);
+      }
     }
     return customerProducts;
   }
@@ -36,6 +39,7 @@ public class StoreService {
   public void addProduct(Product product) {
     double markupPercentage = product.getCategory() == Category.FOOD ? store.getMarkupPercentageFood()
         : store.getMarkupPercentageNonFood();
+
     product.updateSellingPrice(
         calculateSellingPrice(product, markupPercentage, store.getDiscountPercentage(), store.getDiscountDays()));
     store.addProduct(product);
@@ -71,14 +75,15 @@ public class StoreService {
       } else if (product.getQuantity() > product.getAvailability()) {
         throw new InsufficientProductQuantityException();
       }
-      totalAmount += product.getSellingPrice();
+      totalAmount += product.getSellingPrice() * product.getQuantity();
+      product.updateAvailability(product.getAvailability() - product.getQuantity());
     }
 
     if (customerMoney < totalAmount) {
       throw new InsufficientFundsException();
     }
 
-    store.addReceipts(new Receipt(cashier, products, totalAmount));
+    store.addReceipts(new Receipt(store.getReceipts().size() + 1, cashier, products, totalAmount));
   }
 
   public double getTotalRevenue() {
@@ -97,6 +102,22 @@ public class StoreService {
 
   public int getReceiptCounter() {
     return store.getReceipts().size();
+  }
+
+  public List<String> getAllProductsAvailable() {
+    return store.getProducts().stream().map(product -> product.getName())
+        .collect(Collectors.toList());
+  }
+
+  public List<String> getCashierNames() {
+    return store.getCashiers().stream().map(cashier -> cashier.getName())
+        .collect(Collectors.toList());
+  }
+
+  public List<List<String>> getAllSoldProducts() {
+    return store.getReceipts().stream()
+        .map(receipt -> receipt.getProducts().stream().map(product -> product.getName()).collect(Collectors.toList()))
+        .collect(Collectors.toList());
   }
 
 }

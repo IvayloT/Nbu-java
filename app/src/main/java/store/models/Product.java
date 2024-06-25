@@ -33,7 +33,7 @@ public class Product {
   }
 
   public double getSellingPrice() {
-    return sellingPrice;
+    return Math.round(sellingPrice * 100.0) / 100.0;
   }
 
   public double getQuantity() {

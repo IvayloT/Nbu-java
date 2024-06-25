@@ -1,0 +1,8 @@
+Receipt Number: 2
+Cashier: Mitko
+CashierDesk: 2
+Date/Time: 25-06-2024 21:53:45
+Products:
+Orange Juice - 1.84 x 2.0
+Gorna Bankya - 0.82 x 15.0
+Total Amount: 15.98
