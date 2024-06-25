@@ -75,7 +75,7 @@ public class StoreService {
       } else if (product.getQuantity() > product.getAvailability()) {
         throw new InsufficientProductQuantityException();
       }
-      totalAmount += product.getSellingPrice() * product.getQuantity();
+      totalAmount += calculateTotalAmount(product.getSellingPrice(), product.getQuantity());
       product.updateAvailability(product.getAvailability() - product.getQuantity());
     }
 
@@ -120,4 +120,7 @@ public class StoreService {
         .collect(Collectors.toList());
   }
 
+  public double calculateTotalAmount(double sellingPrice, double quantity) {
+    return sellingPrice * quantity;
+  }
 }
