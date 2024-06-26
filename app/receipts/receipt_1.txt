@@ -1,13 +1,15 @@
 ******Receipt******
 
 Receipt Number: 1
-Cashier: John
+Cashier: Georgi
 CashierDesk: 1
 Products:
-Bag - 1.1 x 50.0
+Milk - 1.58 x 2.0
+Soap - 1.02 x 2.0
+Red Tomato - 0.53 x 4.0
 
-Total Amount: 55.0
+Total Amount: 7.32
 *******************
 
-Store Name: Magazin1
-Date/Time: 26-06-2024 10:21:53
+Store Name: Supermarket
+Date/Time: 26-06-2024 10:24:40
