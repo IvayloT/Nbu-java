@@ -28,7 +28,6 @@ public class Receipt {
   private void saveToFile() {
     try (FileWriter writer = new FileWriter("receipts/receipt_" + receiptNumber + ".txt")) {
       writer.write(this.toString());
-      writer.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
